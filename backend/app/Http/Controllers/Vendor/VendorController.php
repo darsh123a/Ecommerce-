@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Models\OrderItem;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,7 +37,9 @@ class VendorController extends Controller
         $totalProducts = Product::where('vendor_id', $vendorId)->count();
         $activeProducts = Product::where('vendor_id', $vendorId)->where('status', 'active')->count();
         $pendingProducts = Product::where('vendor_id', $vendorId)->where('status', 'pending')->count();
-        $vendorOrders = OrderItem::where('vendor_id', $vendorId)->distinct('order_id')->count('order_id');
+        $vendorOrders = Order::whereHas('items', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId);
+        })->count();
 
         return response()->json([
             'stats' => [

@@ -62,8 +62,9 @@ class VendorOrderController extends Controller
             $query->where('vendor_id', $vendorId);
         })->findOrFail($id);
 
+        // V1: vendors may set fulfillment statuses only (not cancelled).
         $validated = $request->validate([
-            'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
+            'status' => 'required|string|in:pending,processing,shipped,delivered',
         ]);
 
         $order->status = $validated['status'];

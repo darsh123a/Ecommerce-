@@ -141,7 +141,10 @@ export async function fetchVendorOrderDetails(id: number): Promise<OrderRecord> 
   return response.data.order;
 }
 
-export async function updateVendorOrderStatus(id: number, status: string): Promise<OrderRecord> {
+export async function updateVendorOrderStatus(
+  id: number,
+  status: 'pending' | 'processing' | 'shipped' | 'delivered'
+): Promise<OrderRecord> {
   const response = await apiClient.post<VendorOrderResponse>(`/vendor/orders/${id}/status`, { status });
   return response.data.order;
 }

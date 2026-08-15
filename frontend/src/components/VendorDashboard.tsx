@@ -5,13 +5,14 @@ import { fetchVendorDashboardStats, VendorDashboardStats } from '../api/vendorAp
 import { VendorProfile } from './VendorProfile';
 import { VendorProductManagement } from './VendorProductManagement';
 import { VendorInventory } from './VendorInventory';
+import { VendorOrders } from './VendorOrders';
 
 export function VendorDashboard() {
   const { user, logout } = useAuth();
   const [stats, setStats] = useState<VendorDashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'inventory' | 'profile'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'inventory' | 'orders' | 'profile'>('dashboard');
 
   const loadStats = async () => {
     setIsLoading(true);
@@ -50,7 +51,7 @@ export function VendorDashboard() {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: activeTab === 'dashboard' ? '#B8863B' : 'white',
+                  color: activeTab === 'dashboard' ? '#B8863B' : '#5B6472',
                   fontWeight: activeTab === 'dashboard' ? 700 : 500,
                   cursor: 'pointer',
                   padding: '0.4rem 0',
@@ -64,7 +65,7 @@ export function VendorDashboard() {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: activeTab === 'products' ? '#B8863B' : 'white',
+                  color: activeTab === 'products' ? '#B8863B' : '#5B6472',
                   fontWeight: activeTab === 'products' ? 700 : 500,
                   cursor: 'pointer',
                   padding: '0.4rem 0',
@@ -78,7 +79,7 @@ export function VendorDashboard() {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: activeTab === 'inventory' ? '#B8863B' : 'white',
+                  color: activeTab === 'inventory' ? '#B8863B' : '#5B6472',
                   fontWeight: activeTab === 'inventory' ? 700 : 500,
                   cursor: 'pointer',
                   padding: '0.4rem 0',
@@ -88,11 +89,25 @@ export function VendorDashboard() {
                 Inventory
               </button>
               <button
+                onClick={() => setActiveTab('orders')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: activeTab === 'orders' ? '#B8863B' : '#5B6472',
+                  fontWeight: activeTab === 'orders' ? 700 : 500,
+                  cursor: 'pointer',
+                  padding: '0.4rem 0',
+                  borderBottom: activeTab === 'orders' ? '2px solid #B8863B' : 'none',
+                }}
+              >
+                Orders
+              </button>
+              <button
                 onClick={() => setActiveTab('profile')}
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: activeTab === 'profile' ? '#B8863B' : 'white',
+                  color: activeTab === 'profile' ? '#B8863B' : '#5B6472',
                   fontWeight: activeTab === 'profile' ? 700 : 500,
                   cursor: 'pointer',
                   padding: '0.4rem 0',
@@ -103,8 +118,8 @@ export function VendorDashboard() {
               </button>
             </nav>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={{ fontSize: '0.9rem', color: 'white' }}>
-                Logged in as <strong>{user?.name}</strong> (Vendor)
+              <span style={{ fontSize: '0.9rem', color: '#5B6472' }}>
+                Logged in as <strong style={{ color: '#0F2A4A' }}>{user?.name}</strong> (Vendor)
               </span>
               <button
                 onClick={logout}
@@ -118,7 +133,17 @@ export function VendorDashboard() {
         </div>
       </header>
 
-      <main className="main-content" style={{ maxWidth: '1100px', margin: '2rem auto', padding: '0 1rem' }}>
+      <main
+        className="main-content"
+        style={{
+          maxWidth: '1100px',
+          margin: '2rem auto',
+          padding: '0 1rem',
+          width: '100%',
+          alignItems: 'stretch',
+          justifyContent: 'flex-start',
+        }}
+      >
         {activeTab === 'dashboard' ? (
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -229,6 +254,8 @@ export function VendorDashboard() {
           <VendorProductManagement />
         ) : activeTab === 'inventory' ? (
           <VendorInventory />
+        ) : activeTab === 'orders' ? (
+          <VendorOrders />
         ) : (
           <VendorProfile />
         )}

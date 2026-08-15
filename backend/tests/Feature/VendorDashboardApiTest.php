@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -54,5 +56,71 @@ class VendorDashboardApiTest extends TestCase
                     'vendor_orders' => 0,
                 ],
             ]);
+    }
+
+    public function test_vendor_dashboard_counts_only_orders_containing_own_products(): void
+    {
+        $vendorA = User::factory()->create(['role' => 'vendor', 'status' => 'active']);
+        $vendorB = User::factory()->create(['role' => 'vendor', 'status' => 'active']);
+        $customer = User::factory()->create(['role' => 'customer', 'status' => 'active']);
+
+        $productA = Product::create([
+            'vendor_id' => $vendorA->id,
+            'title' => 'A Item',
+            'price' => 10,
+            'stock' => 5,
+            'status' => 'active',
+        ]);
+        $productB = Product::create([
+            'vendor_id' => $vendorB->id,
+            'title' => 'B Item',
+            'price' => 20,
+            'stock' => 5,
+            'status' => 'active',
+        ]);
+
+        $sharedOrder = Order::create([
+            'customer_id' => $customer->id,
+            'order_number' => 'ORD-SHARED-1',
+            'total_amount' => 30,
+            'status' => 'pending',
+        ]);
+        OrderItem::create([
+            'order_id' => $sharedOrder->id,
+            'product_id' => $productA->id,
+            'vendor_id' => $vendorA->id,
+            'quantity' => 1,
+            'unit_price' => 10,
+            'subtotal' => 10,
+        ]);
+        OrderItem::create([
+            'order_id' => $sharedOrder->id,
+            'product_id' => $productB->id,
+            'vendor_id' => $vendorB->id,
+            'quantity' => 1,
+            'unit_price' => 20,
+            'subtotal' => 20,
+        ]);
+
+        $otherOrder = Order::create([
+            'customer_id' => $customer->id,
+            'order_number' => 'ORD-B-ONLY',
+            'total_amount' => 20,
+            'status' => 'pending',
+        ]);
+        OrderItem::create([
+            'order_id' => $otherOrder->id,
+            'product_id' => $productB->id,
+            'vendor_id' => $vendorB->id,
+            'quantity' => 1,
+            'unit_price' => 20,
+            'subtotal' => 20,
+        ]);
+
+        $this->actingAs($vendorA);
+
+        $this->getJson('/api/vendor/dashboard')
+            ->assertStatus(200)
+            ->assertJsonPath('stats.vendor_orders', 1);
     }
 }

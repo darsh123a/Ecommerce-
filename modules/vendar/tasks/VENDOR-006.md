@@ -1,7 +1,7 @@
 # VENDOR-006 — Vendor Order Management
 
 ## Status
-TODO
+DONE
 
 ## Read
 - modules/vendor/documentation.md

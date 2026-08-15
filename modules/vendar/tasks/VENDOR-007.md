@@ -1,7 +1,7 @@
 # VENDOR-007 — Vendor Final Integration
 
 ## Status
-TODO
+DONE
 
 ## Read
 - modules/vendor/documentation.md

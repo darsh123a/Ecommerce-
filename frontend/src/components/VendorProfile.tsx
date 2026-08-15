@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { User, Mail, Shield, AlertCircle, Save, Check } from 'lucide-react';
 import { UserProfile } from '../api/authApi';
 import { fetchVendorProfile, updateVendorProfile } from '../api/vendorApi';
+import { useAuth } from '../context/AuthContext';
 
 export function VendorProfile() {
+  const { updateUser } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -41,6 +43,7 @@ export function VendorProfile() {
       setProfile(updated);
       setName(updated.name);
       setEmail(updated.email);
+      updateUser(updated);
       setSuccessMessage('Business profile updated successfully.');
     } catch (err: any) {
       if (err.response?.data?.errors) {
