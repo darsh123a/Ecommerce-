@@ -1,11 +1,28 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::middleware('role:customer')->get('/customer/dashboard', function (Request $request) {
+        return response()->json(['message' => 'Customer area']);
+    });
+
+    Route::middleware('role:vendor')->get('/vendor/dashboard', function (Request $request) {
+        return response()->json(['message' => 'Vendor area']);
+    });
+
+    Route::middleware('role:admin')->get('/admin/dashboard', function (Request $request) {
+        return response()->json(['message' => 'Admin area']);
+    });
+});
 
 Route::get('/status', function () {
     try {
@@ -29,4 +46,3 @@ Route::get('/status', function () {
         'timestamp' => now()->toIso8601String(),
     ]);
 });
-
