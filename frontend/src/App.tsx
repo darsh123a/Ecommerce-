@@ -4,12 +4,24 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { LoginScreen } from './components/LoginScreen';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Unauthorized } from './components/Unauthorized';
+import { AdminDashboard } from './components/AdminDashboard';
 
-function Dashboard() {
+function CustomerDashboard() {
   const { user, logout } = useAuth();
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Dashboard ({user?.role})</h1>
+      <h1>Customer Dashboard</h1>
+      <p>Welcome, {user?.name}!</p>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+}
+
+function VendorDashboard() {
+  const { user, logout } = useAuth();
+  return (
+    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h1>Vendor Dashboard</h1>
       <p>Welcome, {user?.name}!</p>
       <button onClick={logout}>Logout</button>
     </div>
@@ -28,7 +40,7 @@ export function App() {
             path="/customer"
             element={
               <ProtectedRoute allowedRoles={['customer']}>
-                <Dashboard />
+                <CustomerDashboard />
               </ProtectedRoute>
             }
           />
@@ -37,7 +49,7 @@ export function App() {
             path="/vendor"
             element={
               <ProtectedRoute allowedRoles={['vendor']}>
-                <Dashboard />
+                <VendorDashboard />
               </ProtectedRoute>
             }
           />
@@ -46,7 +58,7 @@ export function App() {
             path="/admin"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
-                <Dashboard />
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />

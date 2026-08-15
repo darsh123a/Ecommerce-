@@ -46,7 +46,7 @@ class RoleAuthorizationTest extends TestCase
 
         $response = $this->getJson('/api/admin/dashboard');
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Admin area']);
+            ->assertJsonStructure(['stats' => ['total_customers', 'total_vendors', 'total_products', 'pending_approvals']]);
     }
 
     public function test_inactive_user_is_blocked_by_role_middleware(): void
