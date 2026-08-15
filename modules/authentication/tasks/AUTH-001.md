@@ -1,7 +1,7 @@
 # AUTH-001 — Authentication Database
 
 ## Status
-TODO
+DONE
 
 ## Read
 - docs/tech-stack.md

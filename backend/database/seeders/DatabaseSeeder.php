@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +16,37 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Admin User
+        User::updateOrCreate(
+            ['email' => 'admin@lyzo.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('Admin@12345'),
+                'role' => 'admin',
+                'status' => 'active',
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Customer User
+        User::updateOrCreate(
+            ['email' => 'customer@lyzo.com'],
+            [
+                'name' => 'Customer User',
+                'password' => Hash::make('Customer@12345'),
+                'role' => 'customer',
+                'status' => 'active',
+            ]
+        );
+
+        // Vendor User
+        User::updateOrCreate(
+            ['email' => 'vendor@lyzo.com'],
+            [
+                'name' => 'Vendor User',
+                'password' => Hash::make('Vendor@12345'),
+                'role' => 'vendor',
+                'status' => 'active',
+            ]
+        );
     }
 }
