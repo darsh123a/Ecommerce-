@@ -5,23 +5,13 @@ import { LoginScreen } from './components/LoginScreen';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Unauthorized } from './components/Unauthorized';
 import { AdminDashboard } from './components/AdminDashboard';
+import { VendorDashboard } from './components/VendorDashboard';
 
 function CustomerDashboard() {
   const { user, logout } = useAuth();
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
       <h1>Customer Dashboard</h1>
-      <p>Welcome, {user?.name}!</p>
-      <button onClick={logout}>Logout</button>
-    </div>
-  );
-}
-
-function VendorDashboard() {
-  const { user, logout } = useAuth();
-  return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Vendor Dashboard</h1>
       <p>Welcome, {user?.name}!</p>
       <button onClick={logout}>Logout</button>
     </div>

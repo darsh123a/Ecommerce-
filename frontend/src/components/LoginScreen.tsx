@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { AlertCircle, CheckCircle2, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { UserProfile } from '../api/authApi';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email address is required').email('Please enter a valid email address'),
@@ -12,8 +14,15 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+function dashboardPathForRole(role: UserProfile['role']): string {
+  if (role === 'vendor') return '/vendor';
+  if (role === 'admin') return '/admin';
+  return '/customer';
+}
+
 export function LoginScreen() {
   const { user, login, logout, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const [apiError, setApiError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -30,7 +39,8 @@ export function LoginScreen() {
     setApiError(null);
 
     try {
-      await login(data);
+      const loggedInUser = await login(data);
+      navigate(dashboardPathForRole(loggedInUser.role), { replace: true });
     } catch (err: any) {
       if (err.response?.data?.message) {
         setApiError(err.response.data.message);
@@ -96,10 +106,19 @@ export function LoginScreen() {
               </div>
             </div>
 
-            <button className="btn-primary" onClick={handleLogout} disabled={isLoading}>
-              {isLoading ? <span className="spinner" /> : <LogOut size={18} />}
-              Sign Out
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <button
+                className="btn-primary"
+                onClick={() => navigate(dashboardPathForRole(user.role))}
+                disabled={isLoading}
+              >
+                Continue to {user.role === 'vendor' ? 'Vendor' : user.role === 'admin' ? 'Admin' : 'Customer'} Dashboard
+              </button>
+              <button className="btn-primary" onClick={handleLogout} disabled={isLoading} style={{ background: '#0F2A4A' }}>
+                {isLoading ? <span className="spinner" /> : <LogOut size={18} />}
+                Sign Out
+              </button>
+            </div>
           </div>
         ) : (
           <div className="login-card">

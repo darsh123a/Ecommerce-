@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\VendorManagementController;
 use App\Http\Controllers\Admin\CategoryManagementController;
 use App\Http\Controllers\Admin\ProductManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Vendor\VendorController;
+use App\Http\Controllers\Vendor\VendorProductController;
+use App\Http\Controllers\Vendor\VendorOrderController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -20,8 +23,25 @@ Route::middleware('auth:sanctum')->group(function () {
         return response()->json(['message' => 'Customer area']);
     });
 
-    Route::middleware('role:vendor')->get('/vendor/dashboard', function (Request $request) {
-        return response()->json(['message' => 'Vendor area']);
+    // Vendor API Routes Group
+    Route::prefix('vendor')->middleware('role:vendor')->group(function () {
+        Route::get('/ping', [VendorController::class, 'ping']);
+        Route::get('/dashboard', [VendorController::class, 'dashboard']);
+        Route::get('/profile', [VendorController::class, 'profile']);
+        Route::put('/profile', [VendorController::class, 'updateProfile']);
+
+        // Vendor Product Routes
+        Route::get('/products', [VendorProductController::class, 'index']);
+        Route::post('/products', [VendorProductController::class, 'store']);
+        Route::get('/products/{id}', [VendorProductController::class, 'show']);
+        Route::put('/products/{id}', [VendorProductController::class, 'update']);
+        Route::post('/products/{id}/stock', [VendorProductController::class, 'updateStock']);
+        Route::get('/categories', [VendorProductController::class, 'categories']);
+
+        // Vendor Order Routes
+        Route::get('/orders', [VendorOrderController::class, 'index']);
+        Route::get('/orders/{id}', [VendorOrderController::class, 'show']);
+        Route::post('/orders/{id}/status', [VendorOrderController::class, 'updateStatus']);
     });
 
     // Admin API Routes Group

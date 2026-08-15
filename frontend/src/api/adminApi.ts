@@ -64,6 +64,7 @@ export interface ProductItem {
   title: string;
   description: string | null;
   price: number;
+  stock?: number;
   status: 'pending' | 'active' | 'rejected' | 'inactive';
   created_at: string;
   updated_at: string;

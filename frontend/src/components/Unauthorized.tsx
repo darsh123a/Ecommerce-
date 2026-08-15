@@ -6,6 +6,9 @@ import { useAuth } from '../context/AuthContext';
 export function Unauthorized() {
   const { user } = useAuth();
 
+  const homePath =
+    user?.role === 'vendor' ? '/vendor' : user?.role === 'admin' ? '/admin' : user?.role === 'customer' ? '/customer' : '/login';
+
   return (
     <div className="lyzo-page">
       <main className="main-content" style={{ textAlign: 'center', paddingTop: '4rem' }}>
@@ -17,8 +20,17 @@ export function Unauthorized() {
           <p className="login-subtitle" style={{ marginBottom: '1.5rem' }}>
             You do not have permission to access this area. Your current role is <strong>{user?.role || 'Guest'}</strong>.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <Link to="/login" className="btn-primary" style={{ textDecoration: 'none' }}>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            {user && (
+              <Link to={homePath} className="btn-primary" style={{ textDecoration: 'none' }}>
+                Go to your dashboard
+              </Link>
+            )}
+            <Link
+              to="/login"
+              className="btn-primary"
+              style={{ textDecoration: 'none', background: '#0F2A4A' }}
+            >
               Return to Login
             </Link>
           </div>
