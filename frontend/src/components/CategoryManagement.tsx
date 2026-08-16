@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Layers, Plus, Edit2, CheckCircle, XCircle, AlertCircle, RefreshCw, Power } from 'lucide-react';
 import {
-  Category,
-  CategoryRequestItem,
+  type Category,
+  type CategoryRequestItem,
   fetchCategories,
   createCategory,
   updateCategory,

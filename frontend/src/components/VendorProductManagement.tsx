@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Package, Plus, Edit2, AlertCircle, RefreshCw, Eye, CheckCircle2 } from 'lucide-react';
-import { ProductItem, Category } from '../api/adminApi';
+import type { ProductItem, Category } from '../api/adminApi';
 import {
   fetchVendorProducts,
   createVendorProduct,

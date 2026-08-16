@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Layers, AlertTriangle, RefreshCw, AlertCircle, Save, CheckCircle2 } from 'lucide-react';
-import { ProductItem } from '../api/adminApi';
+import type { ProductItem } from '../api/adminApi';
 import { fetchVendorProducts, updateVendorProductStock } from '../api/vendorApi';
 
 export function VendorInventory() {

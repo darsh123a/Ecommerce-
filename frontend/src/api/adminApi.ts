@@ -1,4 +1,4 @@
-import { apiClient, UserProfile } from './authApi';
+import { apiClient, type UserProfile } from './authApi';
 
 export interface AdminDashboardStats {
   total_customers: number;

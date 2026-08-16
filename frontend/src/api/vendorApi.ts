@@ -1,5 +1,5 @@
-import { apiClient, UserProfile } from './authApi';
-import { ProductItem, Category } from './adminApi';
+import { apiClient, type UserProfile } from './authApi';
+import type { ProductItem, Category } from './adminApi';
 
 export interface VendorDashboardStats {
   total_products: number;

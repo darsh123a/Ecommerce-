@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Users, Store, Package, Clock, RefreshCw, AlertCircle, LogOut } from 'lucide-react';
-import { fetchAdminDashboardStats, AdminDashboardStats } from '../api/adminApi';
+import { fetchAdminDashboardStats, type AdminDashboardStats } from '../api/adminApi';
 import { useAuth } from '../context/AuthContext';
 import { VendorManagement } from './VendorManagement';
 import { CategoryManagement } from './CategoryManagement';

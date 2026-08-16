@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { User, Mail, Shield, AlertCircle, Save, Check } from 'lucide-react';
-import { UserProfile } from '../api/authApi';
+import type { UserProfile } from '../api/authApi';
 import { fetchVendorProfile, updateVendorProfile } from '../api/vendorApi';
 import { useAuth } from '../context/AuthContext';
 

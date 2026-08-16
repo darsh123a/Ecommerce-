@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Package, CheckCircle, Clock, ShoppingBag, RefreshCw, AlertCircle, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { fetchVendorDashboardStats, VendorDashboardStats } from '../api/vendorApi';
+import { fetchVendorDashboardStats, type VendorDashboardStats } from '../api/vendorApi';
 import { VendorProfile } from './VendorProfile';
 import { VendorProductManagement } from './VendorProductManagement';
 import { VendorInventory } from './VendorInventory';

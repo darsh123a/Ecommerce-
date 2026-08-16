@@ -4,7 +4,7 @@ import {
   fetchVendorOrders,
   fetchVendorOrderDetails,
   updateVendorOrderStatus,
-  OrderRecord,
+  type OrderRecord,
 } from '../api/vendorApi';
 
 const FULFILLMENT_STATUSES = ['pending', 'processing', 'shipped', 'delivered'] as const;

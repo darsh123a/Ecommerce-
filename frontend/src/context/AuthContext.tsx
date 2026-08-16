@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserProfile, getStoredAuth, loginApiCredentials, logoutApi as logoutApiCall } from '../api/authApi';
+import { type UserProfile, getStoredAuth, loginApiCredentials, logoutApi as logoutApiCall } from '../api/authApi';
 
 interface AuthContextType {
   user: UserProfile | null;

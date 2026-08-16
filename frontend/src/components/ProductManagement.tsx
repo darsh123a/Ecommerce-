@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Package, CheckCircle, XCircle, AlertCircle, RefreshCw, Eye, Power } from 'lucide-react';
 import {
-  ProductItem,
+  type ProductItem,
   fetchProducts,
   approveProduct,
   rejectProduct,

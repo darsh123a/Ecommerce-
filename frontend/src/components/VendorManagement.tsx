@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Store, CheckCircle, XCircle, AlertCircle, RefreshCw, Eye, Power } from 'lucide-react';
-import { UserProfile } from '../api/authApi';
+import type { UserProfile } from '../api/authApi';
 import {
   fetchVendors,
   approveVendor,
